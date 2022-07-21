@@ -1,7 +1,7 @@
 <?php
 include('config.php');
 session_start();
-date_default_timezone_set('Asia/Ho-Chi-Minh');
+date_default_timezone_set("Asia/Ho_Chi_Minh");
 ?>
 
 <!DOCTYPE HTML>

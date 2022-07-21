@@ -2,6 +2,8 @@
 include('header.php');
 unset($_SESSION['seatings']);
 unset($_SESSION['amount']);
+unset($_SESSION['total_amount']);
+unset($_SESSION['combo_id']);
 $qry2 = mysqli_query($con, "select * from tbl_movie where movie_id='" . $_GET['id'] . "'");
 $movie = mysqli_fetch_array($qry2);
 ?>
@@ -25,67 +27,77 @@ $movie = mysqli_fetch_array($qry2);
                         <div class="clear"></div>
                     </div>
                     <?php
-                    if (isset($_GET['date'])) {
-                        $date = $_GET['date'];
+                    if ($movie['release_date'] <= date('Y-m-d')) {
+                        if (isset($_GET['date'])) {
+                            $date = $_GET['date'];
+                        } else {
+                            $date = date('Y-m-d');
+                        }
+                    ?>
+                        <div class="col-md-12 text-center" style="padding-bottom:20px">
+                            <?php $_SESSION['dd'] = date('Y-m-d'); ?>
+                            <?php if ($date > $_SESSION['dd']) { ?><a href="about.php?date=<?php echo date('Y-m-d', strtotime($date . "-1 days")); ?>&id=<?php echo $movie['movie_id']; ?>"><button class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i></button></a> <?php } ?><span style="cursor:default" class="btn btn-default"><?php echo date('d-M-Y', strtotime($date)); ?></span>
+                            <?php if ($date != date('Y-m-d', strtotime($_SESSION['dd'] . "+4 days"))) { ?>
+                                <a href="about.php?date=<?php echo date('Y-m-d', strtotime($date . "+1 days")); ?>&id=<?php echo $movie['movie_id']; ?>"><button class="btn btn-default"><i class="glyphicon glyphicon-chevron-right"></i></button></a>
+                            <?php }
+                            ?>
+                        </div>
+                        <table class="table table-hover table-bordered text-center">
+                            <h3 style="color:#444;" class="text-center">Available Shows</h3>
+
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="font-size:16px;"><b>Show Timings</b></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <?php $tr = mysqli_query($con, "select * from tbl_shows where movie_id='" . $movie['movie_id'] . "'and start_date ='" . $date . "'");
+                                    $tr_count = mysqli_num_rows($tr);
+                                    if ($tr_count > 0) {
+                                    ?>
+                                        <td>
+                                            <?php
+                                            $today = date("Y-m-d");
+                                            while ($shh = mysqli_fetch_array($tr)) {
+                                            ?>
+                                                <a href="check_login.php?show=<?php echo $shh['s_id']; ?>&movie=<?php echo $shh['movie_id']; ?>">
+                                                    <?php
+                                                    if (($shh['start_time'] <= date('H:i:s')) && ($date == $today)) {
+                                                    ?>
+                                                        <button class="btn btn-default" disabled><?php echo date('H:i A', strtotime($shh['start_time'])); ?></button>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+
+                                                        <button class="btn btn-default"><?php echo date('H:i A', strtotime($shh['start_time'])); ?></button>
+                                                    <?php } ?>
+                                                </a>
+                                            <?php
+                                            }
+
+                                            ?>
+                                        </td>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <td style="color:#444; font-size:20px;" class="text-center">Currently there are no any shows available!<br /><small>Please check back later!</small></td>
+                                    <?php
+                                    }
+                                    ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    <?php
                     } else {
-                        $date = date('Y-m-d');
+                    ?>
+                        <p style="color:#444; font-size:20px;" class="text-center">
+                            The movie will be shown soon!
+                        </p>
+                    <?php
                     }
                     ?>
-                    <div class="col-md-12 text-center" style="padding-bottom:20px">
-                        <?php if (isset($_SESSION['dd'])) $_SESSION['dd'] = date('Y-m-d'); ?>
-                        <?php if ($date > $_SESSION['dd']) { ?><a href="about.php?date=<?php echo date('Y-m-d', strtotime($date . "-1 days")); ?>&id=<?php echo $movie['movie_id']; ?>"><button class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i></button></a> <?php } ?><span style="cursor:default" class="btn btn-default"><?php echo date('d-M-Y', strtotime($date)); ?></span>
-                        <?php if ($date != date('Y-m-d', strtotime($_SESSION['dd'] . "+4 days"))) { ?>
-                            <a href="about.php?date=<?php echo date('Y-m-d', strtotime($date . "+1 days")); ?>&id=<?php echo $movie['movie_id']; ?>"><button class="btn btn-default"><i class="glyphicon glyphicon-chevron-right"></i></button></a>
-                        <?php }
-                        ?>
-                    </div>
-                    <table class="table table-hover table-bordered text-center">
-                        <h3 style="color:#444;" class="text-center">Available Shows</h3>
-
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="font-size:16px;"><b>Show Timings</b></th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <?php $tr = mysqli_query($con, "select * from tbl_shows where movie_id='" . $movie['movie_id'] . "'and start_date ='" . $date . "'");
-                                $tr_count = mysqli_num_rows($tr);
-                                if ($tr_count > 0) {
-                                ?>
-                                    <td>
-                                        <?php
-                                        $today = date("Y-m-d");
-                                        while ($shh = mysqli_fetch_array($tr)) {
-                                        ?>
-                                            <a href="check_login.php?show=<?php echo $shh['s_id']; ?>&movie=<?php echo $shh['movie_id']; ?>">
-                                                <?php
-                                                if ($shh['start_time'] >= date('h:i:s')) {
-                                                ?>
-                                                    <button class="btn btn-default" disabled><?php echo date('h:i A', strtotime($shh['start_time'])); ?></button>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <button class="btn btn-default"><?php echo date('h:i A', strtotime($shh['start_time'])); ?></button>
-                                                <?php } ?>
-                                            </a>
-                                        <?php
-                                        }
-
-                                        ?>
-                                    </td>
-                                <?php
-                                } else {
-                                ?>
-                                    <td style="color:#444; font-size:20px;" class="text-center">Currently there are no any shows available!<br /><small>Please check back later!</small></td>
-                                <?php
-                                }
-                                ?>
-                            </tr>
-                        </tbody>
-                    </table>
-
                 </div>
                 <?php include('movie_sidebar.php'); ?>
             </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,50 +25,53 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
+
 <body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a>Theatre Assistant<b> &nbsp; Admin Panel</b></a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <?php session_start(); include('../msgbox.php');?>
-    <p class="login-box-msg">Please login to start your session</p>
-<form action="pages/process_login.php" method="post">
-      <div class="form-group has-feedback">
-        <input name="Email" type="text" size="25" placeholder="Username" class="form-control"/>
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input name="Password" type="password" size="25" placeholder="Password" class="form-control" />
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group">
+  <div class="login-box">
+    <div class="login-logo">
+      <a>Theatre Assistant<b> &nbsp; Admin Panel</b></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <?php session_start();
+      include('../msgbox.php'); ?>
+      <p class="login-box-msg">Please login to start your session</p>
+      <form action="pages/process_login.php" method="post">
+        <div class="form-group has-feedback">
+          <input name="Email" type="text" size="25" placeholder="Username" class="form-control" />
+          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+          <input name="Password" type="password" size="25" placeholder="Password" class="form-control" />
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="form-group">
           <button type="submit" class="btn btn-danger">Login</button>
-      </div>
-    </form>
+        </div>
+      </form>
 
-    <a href="../theatre/index.php">Go To Theatre Panel</a>
+      <a href="../theatre/index.php">Go To Theatre Panel</a>
 
+    </div>
+    <!-- /.login-box-body -->
   </div>
-  <!-- /.login-box-body -->
-</div>
-<!-- /.login-box -->
+  <!-- /.login-box -->
 
-<!-- jQuery 2.2.3 -->
-<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="plugins/iCheck/icheck.min.js"></script>
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
+  <!-- jQuery 2.2.3 -->
+  <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+  <!-- Bootstrap 3.3.6 -->
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <!-- iCheck -->
+  <script src="plugins/iCheck/icheck.min.js"></script>
+  <script>
+    $(function() {
+      $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+      });
     });
-  });
-</script>
+  </script>
 </body>
+
 </html>

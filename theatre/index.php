@@ -29,11 +29,13 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <a href="#">Theatre Assistant <b>Theatre Panel</b></a>
+      <a href="#">Theatre Assistant <b>Assistant Panel</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-      <?php session_start();
+      <?php
+      session_start();
+      include('logout.php');
       include('../msgbox.php'); ?>
       <p class="login-box-msg">Please login to start your session</p>
       <form action="pages/process_login.php" method="post">

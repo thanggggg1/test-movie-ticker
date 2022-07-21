@@ -19,6 +19,11 @@ class formBuilder
             $input = "<input type='date' name='$name' id='$id' class='$class' placeholder='$placeholder' $opt>";
             echo $input;
         }
+        if ($type == "time") // if text box
+        {
+            $input = "<input type='time' name='$name' id='$id' class='$class' placeholder='$placeholder' $opt>";
+            echo $input;
+        }
         if ($type == "number") // if number box
         {
             $input = "<input type='number' name='$name' id='$id' class='$class' $opt>";

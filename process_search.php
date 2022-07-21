@@ -12,7 +12,7 @@ extract($_GET);
 
             <?php
             $today = date("Y-m-d");
-            $qry2 = mysqli_query($con, "select DISTINCT movie_name,movie_id,image,cast from tbl_movie where movie_name='" . $search . "'");
+            $qry2 = mysqli_query($con, "select DISTINCT * from tbl_movie where movie_name='" . $search . "'");
 
             while ($m = mysqli_fetch_array($qry2)) {
             ?>
@@ -21,7 +21,7 @@ extract($_GET);
                     <div class="imageRow">
                         <div class="single">
 
-                            <a href="about.php?id=<?php echo $m['movie_id']; ?>" rel="lightbox"><img src="<?php echo $m['image']; ?>" alt="" /></a>
+                            <a href="about.php?id=<?php echo $m['movie_id']; ?>" rel="lightbox" <?php ?>><img src="<?php echo $m['image']; ?>" alt="" /></a>
                         </div>
                         <div class="movie-text">
                             <h4 class="h-text"><a href="about.php?id=<?php echo $m['movie_id']; ?>"><?php echo $m['movie_name']; ?></a></h4>

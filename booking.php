@@ -24,13 +24,17 @@ $movie = mysqli_fetch_array($qry2);
                         </div>
                         <div class="clear"></div>
                     </div>
+                    <a href="about.php?id= <?php echo $movie['movie_id']; ?>">
+                        <p style="font-size:120%">
+                            < Go Back</p>
+                    </a>
                     <table class="table table-hover table-bordered text-center">
                         <?php
                         $s = mysqli_query($con, "select * from tbl_shows where s_id='" . $_SESSION['show'] . "'");
                         $shw = mysqli_fetch_array($s);
                         ?>
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 Room
                             </td>
                             <td>
@@ -45,7 +49,7 @@ $movie = mysqli_fetch_array($qry2);
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 Date
                             </td>
                             <td>
@@ -56,7 +60,7 @@ $movie = mysqli_fetch_array($qry2);
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 Show Time
                             </td>
                             <td>
@@ -69,26 +73,74 @@ $movie = mysqli_fetch_array($qry2);
                             <tr>
                                 <td>
                                     Seats
+                                    <a href="choosing_seats.php">
+                                        Change
+                                    </a>
                                 </td>
                                 <td>
                                     <?php foreach ($_SESSION['seatings'] as $seat) {
                                         echo $seat . " ";
                                     } ?>
                                 </td>
-                            </tr>
-                            <tr>
                                 <td>
-                                    Amount
+                                    <?php
+                                    echo $_SESSION['amount'];
+                                    ?> 000 <u>đ</u>
+                                </td>
+                            </tr>
+
+                            <?php
+                            if (isset($_GET['combo_id'])) {
+                                $cb = mysqli_query($con, "SELECT * FROM tbl_combos WHERE combo_id ='" . $_GET['combo_id'] . "'");
+                                $combo = mysqli_fetch_array($cb);
+                            ?>
+                                <tr>
+                                    <td>
+                                        Combos
+                                        <a href="choosing_combos.php">
+                                            Change
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <?php echo $combo['desc']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $combo['amount']; ?> 000 <u>đ</u>
+                                    </td>
+                                </tr>
+                            <?php
+                                if (!isset($_SESSION['total_amount']) || ($_SESSION['total_amount'] != $_SESSION['amount'] + $combo['amount'])) $_SESSION['total_amount'] = $_SESSION['amount'] + $combo['amount'];
+                            } else {
+                                $_SESSION['total_amount'] = $_SESSION['amount']; ?>
+                                <tr>
+                                    <td colspan="2">
+                                        Combos
+                                    </td>
+                                    <td>
+                                        <form action="choosing_combos.php">
+                                            <button type="submit">Select Combos</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                            <?php
+                            }
+                            ?>
+                            <tr>
+                                <td colspan="2">
+                                    <b> Amount</b>
                                 </td>
                                 <td>
-                                    <?php echo $_SESSION['amount']; ?>
+                                    <b>
+                                        <?php echo $_SESSION['total_amount']; ?> 000 <u>đ</u>
+                                    </b>
                                 </td>
                             </tr>
                         <?php
                         } else {
                         ?>
                             <tr>
-                                <td>
+                                <td colspan="2">
                                     Seats
                                 </td>
                                 <td>
@@ -101,14 +153,19 @@ $movie = mysqli_fetch_array($qry2);
                         }
                         ?>
                         <tr>
-                            <td colspan="2">
+                            <td colspan="3">
                                 <form action="process_booking.php" method="post">
+                                    <input type="hidden" name="combo_id" value="<?php echo ($comboid = isset($_GET['combo_id']) ? $_GET['combo_id'] : NULL) ?>" />
                                     <input type="hidden" name="seats" value="<?php foreach ($_SESSION['seatings'] as $seat) {
                                                                                     echo $seat . " ";
                                                                                 } ?>" />
-                                    <input type="hidden" name="amount" id="hm" value="<?php echo $_SESSION['amount']; ?>" />
+                                    <input type="hidden" name="amount" id="hm" value="<?php echo $_SESSION['total_amount']; ?>" />
                                     <input type="hidden" name="date" value="<?php echo $shw['start_date'] ?>" />
-                                    <button class="btn btn-info" style="width:100%">Book Now</button>
+                                    <?php if (!isset($_SESSION['seatings'])) { ?>
+                                        <button class="btn btn-info" style="width:100%" disabled>Book Now</button>
+                                    <?php } else { ?>
+                                        <button class="btn btn-info" style="width:100%">Book Now</button>
+                                    <?php } ?>
                                 </form>
                             </td>
                         </tr>

@@ -9,6 +9,10 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
     $ro = mysqli_query($con, "SELECT r.room_name,t.seats,t.vip,t.charge,t.vip_charge FROM tbl_rooms AS r INNER JOIN tbl_roomtypes AS t ON r.type_id = t.type_id WHERE room_id='" . $shw['room_id'] . "'");
     $room = mysqli_fetch_array($ro);
     $qry_seats = "SELECT seat_id FROM tmp_seats WHERE s_id ='" . $_SESSION['show'] . "'";
+    $seats_choosen = array();
+    if (isset($_SESSION['seatings'])) foreach ($_SESSION['seatings'] as $seat_choosen) {
+        $seats_choosen[] = $seat_choosen;
+    }
     $seats = mysqli_query($con, $qry_seats);
     $seats_booked = array();
     while ($rows = mysqli_fetch_array($seats)) {
@@ -33,7 +37,6 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
 
 <head>
     <title>Seat Selection</title>
-
     <script>
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
@@ -48,11 +51,9 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
 
     <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
 
-    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
-
 </head>
 
-<body onload="onLoaderFunc()">
+<body>
 
     <div class="header" style="color: white">
         <table width="100%">
@@ -153,7 +154,10 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                                 $value = chr(ord('A') - 1 + $count_row) . $count_col;
                             ?>
                                 <td>
-                                    <input type="checkbox" class="seats" name="a[]" <?php if (in_array($value, $seats_booked)) {
+                                    <input type="checkbox" class="seats" name="a[]" <?php
+                                                                                    if (in_array($value, $seats_choosen)) {
+                                                                                        echo "checked ";
+                                                                                    } else if (in_array($value, $seats_booked)) {
                                                                                         echo "checked ";
                                                                                         echo " disabled";
                                                                                     } ?> value=<?php echo $value ?>>
@@ -180,7 +184,10 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                                 $value = chr(ord('A') - 1 + $count_row) . $count_col;
                             ?>
                                 <td>
-                                    <input type="checkbox" class="seats" name="a[]" <?php if (in_array($value, $seats_booked)) {
+                                    <input type="checkbox" class="seats" name="a[]" <?php
+                                                                                    if (in_array($value, $seats_choosen)) {
+                                                                                        echo "checked ";
+                                                                                    } else if (in_array($value, $seats_booked)) {
                                                                                         echo "checked ";
                                                                                         echo " disabled";
                                                                                     } ?> value=<?php echo $value ?>>
@@ -203,6 +210,8 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
     </form>
     <?php
     if (isset($_POST['submit_seat'])) {
+        unset($_SESSION['seatings']);
+        unset($_SESSION['amount']);
         $amount = 0;
         foreach ($_POST['a'] as $seat) {
             $tmp = ord(substr($seat, 0, 1)) - ord('A') + 1;
@@ -212,54 +221,49 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                 $amount = $amount + $room['vip_charge'];
             }
         }
-        $_SESSION['seatings'] = $_POST['a'];
-        $_SESSION['amount'] = $amount;
+        if ($amount != 0) {
+            $_SESSION['seatings'] = $_POST['a'];
+            $_SESSION['amount'] = $amount;
+        }
     ?>
         <form>
-            <center>
-                <table>
-                    <tr>
+            <?php
+            if ($amount != 0) {
+            ?>
+                <center>
+                    <table>
+                        <tr>
 
-                        <th>Number of Seats</th>
-                        <th>Seats</th>
-                        <th>Amount</th>
-                    </tr>
-                    <tr>
+                            <th>Number of Seats</th>
+                            <th>Seats</th>
+                            <th>Amount</th>
+                        </tr>
+                        <tr>
 
-                        <td>
-                            <textarea><?php echo count($_POST['a']); ?></textarea>
-                        </td>
-                        <td>
-                            <textarea><?php foreach ($_POST['a'] as $seat) {
+                            <td>
+                                <textarea><?php echo count($_POST['a']); ?></textarea>
+                            </td>
+                            <td>
+                                <textarea><?php foreach ($_POST['a'] as $seat) {
 
-                                            echo $seat . " ";
-                                        } ?></textarea>
-                        </td>
+                                                echo $seat . " ";
+                                            } ?></textarea>
+                            </td>
 
-                        <td>
-                            <textarea><?php echo $amount; ?>
+                            <td>
+                                <textarea><?php echo $amount; ?>
 							</textarea>
-                        </td>
+                            </td>
 
-                    </tr>
-            </center>
-            </table>
-
+                        </tr>
+                </center>
+                </table>
+            <?php } ?>
             <center><a href="booking.php">Confirm <?php echo $amount; ?></a> </center>
         </form>
     <?php
     }
     ?>
-    <script src="js/jquery-2.2.3.min.js"></script>
-    <!-- //js -->
-    <!-- script for seat selection -->
-    <script>
-        function onLoaderFunc() {
-            $(".seat_submit*").prop("disabled", true);
-            $('input[type=checkbox]').not(':checked').prop("disabled", true);
-
-        }
-    </script>
 </body>
 
 </html>

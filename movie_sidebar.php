@@ -3,7 +3,7 @@
 
     <?php
     $today = date("Y-m-d");
-    $qry2 = mysqli_query($con, "select * from  tbl_movie where status='0' order by rand() limit 5");
+    $qry2 = mysqli_query($con, "select * from  tbl_movie where release_date <= CURDATE() order by rand() limit 5");
 
     while ($m = mysqli_fetch_array($qry2)) {
     ?>
