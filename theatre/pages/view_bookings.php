@@ -97,47 +97,61 @@ if (isset($_SESSION['success'])) {
                         <tbody>
                             <?php
                             while ($bkg = mysqli_fetch_array($sw)) {
+                                $tk = mysqli_query($con, "SELECT DISTINCT s_id FROM tbl_tickets WHERE book_id ='" . $bkg['book_id'] . "'");
+                                if (mysqli_num_rows($tk)) {
+                                    $tid = mysqli_fetch_array($tk);
+
+                                    $info = mysqli_query($con, "SELECT m.movie_name,r.room_name,s.start_time,s.start_date FROM tbl_shows AS s INNER JOIN tbl_movie AS m ON m.movie_id = s.movie_id INNER JOIN tbl_rooms AS r ON r.room_id = s.room_id WHERE s.s_id = '" . $tid['s_id'] . "'");
+                                    $tik = mysqli_fetch_array($info);
+                                    $seat_booked = mysqli_query($con, "SELECT seat_id FROM tbl_tickets WHERE book_id ='" . $bkg['book_id'] . "'");
+                                    $cb =  mysqli_query($con, "SELECT `desc` FROM tbl_combos WHERE combo_id ='" . $bkg['combo_id'] . "'");
+                                    $combo = mysqli_fetch_array($cb);
                             ?>
-                                <tr>
-                                    <td style="word-wrap: break-word" width=10%>
-                                        <?php echo $bkg['ticket_id']; ?>
-                                    </td>
-                                    <td width=5%>
-                                        <div class="tools">
-                                            <button class="fa fa-user" onclick="viewuser(<?php echo $bkg['user_id']; ?>)"></button>
-                                        </div>
-                                    </td>
-                                    <td style="word-wrap: break-word" width=20%>
-                                        <?php echo $bkg['movie_name']; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $bkg['room_name']; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $bkg['show_time'] . '<br/>' . $bkg['ticket_date']; ?>
-                                    <td style="word-wrap: break-word">
-                                        <?php echo $bkg['seats']; ?>
-                                    </td>
-                                    <td style="word-wrap: break-word" width=15%>
-                                        <?php echo $bkg['combo_desc']; ?>
-                                    </td>
-                                    <td>
-                                        <b><?php echo $bkg['amount']; ?> 000 <u>đ</u></b>
-                                    </td>
-                                    <td width=10%>
-                                        <?php if ($bkg['ticket_date'] > date('Y-m-d') || (($bkg['ticket_date'] == date('Y-m-d')) && ($bkg['show_time'] > date('H:i:s')))) {
-                                        ?>
-                                            <a href="print.php?id=<?php echo $bkg['book_id']; ?>"> <button class="btn btn-primary" style="width: 60px;">Print</button> </a>
-                                            <a href="cancel.php?id=<?php echo $bkg['book_id']; ?>&s_id=<?php echo $bkg['s_id'] ?>"> <button class="btn btn-danger" style="width: 60px;">Cancel</button> </a>
-                                        <?php
-                                        } else { ?>
-                                            <i class="glyphicon glyphicon-ok"></i>
-                                        <?php
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td style="word-wrap: break-word" width=10%>
+                                            <?php echo $bkg['ticket_id']; ?>
+                                        </td>
+                                        <td width=5%>
+                                            <div class="tools">
+                                                <button class="fa fa-user" onclick="viewuser(<?php echo $bkg['user_id']; ?>)"></button>
+                                            </div>
+                                        </td>
+                                        <td style="word-wrap: break-word" width=20%>
+                                            <?php echo $tik['movie_name']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $tik['room_name']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $tik['start_time'] . '<br/>' . $tik['start_date']; ?>
+                                        </td>
+                                        <td style="word-wrap: break-word">
+                                            <?php
+                                            while ($seat = mysqli_fetch_array($seat_booked)) {
+                                                echo $seat['seat_id'] . ' ';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td style="word-wrap: break-word" width=15%>
+                                            <?php echo $combo['desc']; ?>
+                                        </td>
+                                        <td>
+                                            <b><?php echo $bkg['amount']; ?> 000 <u>đ</u></b>
+                                        </td>
+                                        <td width=5%>
+                                            <?php if ($tik['start_date'] > date('Y-m-d') || (($tik['start_date'] == date('Y-m-d')) && ($tik['start_time'] > date('H:i:s')))) {
+                                            ?>
+                                                <a href="print.php?id=<?php echo $bkg['book_id']; ?>"> <button class="btn btn-primary" style="width: 60px;">Print</button> </a>
+                                            <?php
+                                            } else { ?>
+                                                <i class="glyphicon glyphicon-ok"></i>
+                                            <?php
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
                             <?php
+                                }
                             }
                             ?>
                         </tbody>

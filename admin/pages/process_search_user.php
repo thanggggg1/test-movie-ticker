@@ -1,7 +1,7 @@
 <?php include('../../config.php');
 session_start();
 extract($_GET);
-$qry2 = mysqli_query($con, "select user_id from tbl_registration where email='" . $search . "'");
+$qry2 = mysqli_query($con, "select user_id from tbl_users where email='" . $search . "'");
 if (!mysqli_num_rows($qry2)) {
     $_SESSION['status'] = "error";
     header("location:view_users.php");

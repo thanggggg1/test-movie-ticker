@@ -25,6 +25,7 @@ $frm = new formBuilder;
                         <div class="form-group">
                             <select name="month" class="form-control">
                                 <option value>Select Month</option>
+                                <option value="<?php echo '0'; ?>"><?php echo 'All'; ?></option>
                                 <option value="<?php echo date('m'); ?>"><?php echo 'This Month'; ?></option>
                                 <?php
 
@@ -97,36 +98,54 @@ $frm = new formBuilder;
             $month = $_GET['month'];
             $year = $_GET['year'];
         }
-        $mto = mysqli_query($con, "SELECT SUM(amount)as t_amount,date FROM tbl_bookings WHERE MONTH(date) = '$month' AND YEAR(date) = '$year' GROUP BY date ORDER BY date");
-        $m_turnover = 0;
-        $m_array = array();
-        $m_end = date('t', strtotime($year . '-' . $month . '-01'));
-        for ($m_count = 1; $m_count <= $m_end; $m_count++) {
-            $m_array[date('Y-m-d', strtotime($year . '-' . $month . '-' . $m_count))] = 0;
-        }
-        while ($m_fetch = mysqli_fetch_array($mto)) {
-            $m_turnover += $m_fetch['t_amount'];
-            $m_array[$m_fetch['date']] = $m_fetch['t_amount'];
-        } ?>
-        <div> The month turnover: <?php echo $m_amount = empty($m_turnover) ? 0 : $m_turnover . ' 000'; ?> <u>đ</u></div>
-        <table class="table">
-            <th class="col-md-2">Day</th>
-            <th class="col-md-2">Turnover</th>
-            <?php
-            foreach ($m_array as $key => $value) {
-            ?>
-                <tr>
-                    <td>
-                        <?php echo $key; ?>
-                    </td>
-                    <td>
-                        <?php echo $amount = (empty($value)) ? 0 : $value . ' 000'; ?> <u>đ</u>
-                    </td>
-                </tr>
-            <?php
+        $result_array = array();
+        if ($month != 0) {
+            $mto = mysqli_query($con, "SELECT SUM(amount)as t_amount,date FROM tbl_bookings WHERE MONTH(date) = '$month' AND YEAR(date) = '$year' GROUP BY date ORDER BY date");
+            $m_turnover = 0;
+            $d_end = date('t', strtotime($year . '-' . $month . '-01'));
+            for ($d_count = 1; $d_count <= $d_end; $d_count++) {
+                $result_array[date('Y-m-d', strtotime($year . '-' . $month . '-' . $d_count))] = 0;
             }
-            ?>
-        </table>
+            while ($m_fetch = mysqli_fetch_array($mto)) {
+                $m_turnover += $m_fetch['t_amount'];
+                $result_array[$m_fetch['date']] = $m_fetch['t_amount'];
+            } ?>
+            <div> The month turnover: <?php echo $m_amount = empty($m_turnover) ? 0 : $m_turnover . ' 000'; ?> <u>đ</u></div>
+            <table class="table">
+                <th class="col-md-2">Day</th>
+                <th class="col-md-2">Turnover</th>
+            <?php
+
+        } else {
+            $y_turnover = 0;
+            $yto = mysqli_query($con, "SELECT SUM(amount)as t_amount,date FROM tbl_bookings WHERE YEAR(date) = '$year' GROUP BY date ORDER BY date");
+            for ($m_count = 1; $m_count <= 12; $m_count++) {
+                $result_array[date('Y-m-t', strtotime($year . '-' . $m_count . '-01'))] = 0;
+            }
+            while ($y_fetch = mysqli_fetch_array($yto)) {
+                $y_turnover += $y_fetch['t_amount'];
+                $result_array[date('Y-m-t', strtotime($y_fetch['date']))] += $y_fetch['t_amount'];
+            } ?>
+                <div> The year turnover: <?php echo $y_amount = empty($y_turnover) ? 0 : $y_turnover . ' 000'; ?> <u>đ</u></div>
+                <table class="table">
+                    <th class="col-md-2">Month</th>
+                    <th class="col-md-2">Turnover</th>
+                <?php
+            }
+            foreach ($result_array as $key => $value) {
+                ?>
+                    <tr>
+                        <td>
+                            <?php echo $key = (empty($month)) ? date('F', strtotime($key)) : $key; ?>
+                        </td>
+                        <td>
+                            <?php echo $amount = (empty($value)) ? 0 : $value . ' 000'; ?> <u>đ</u>
+                        </td>
+                    </tr>
+                <?php
+            }
+                ?>
+                </table>
     </section>
 </div>
 <?php

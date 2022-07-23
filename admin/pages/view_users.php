@@ -79,9 +79,9 @@ if (isset($_SESSION['success'])) {
                 <?php
                 $year = date('Y');
                 if (!isset($_GET['uid'])) {
-                    $sw = mysqli_query($con, "SELECT r.user_id,r.name,r.email,r.phone,SUM(b.amount) as total FROM tbl_registration as r left join tbl_bookings as b on r.user_id=b.user_id where YEAR(b.date)= YEAR(CURDATE()) GROUP BY r.user_id");
+                    $sw = mysqli_query($con, "SELECT r.user_id,r.name,r.email,r.phone,SUM(b.amount) as total FROM tbl_users as r left join tbl_bookings as b on r.user_id=b.user_id GROUP BY r.user_id");
                 } else {
-                    $sw = mysqli_query($con, "SELECT r.user_id,r.name,r.email,r.phone,SUM(b.amount) as total FROM tbl_registration as r left join tbl_bookings as b on r.user_id=b.user_id where (YEAR(b.date)= YEAR(CURDATE())) AND (r.user_id =" . $_GET['uid'] . ") GROUP BY r.user_id");
+                    $sw = mysqli_query($con, "SELECT r.user_id,r.name,r.email,r.phone,SUM(b.amount) as total FROM tbl_users as r left join tbl_bookings as b on r.user_id=b.user_id WHERE (r.user_id =" . $_GET['uid'] . ") GROUP BY r.user_id");
                 }
 
                 if (mysqli_num_rows($sw)) { ?>

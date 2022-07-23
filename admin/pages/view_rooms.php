@@ -27,7 +27,47 @@ if (isset($_SESSION['success'])) {
 
     <!-- Main content -->
     <section class="content">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">General Details</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" padding: 15px>
+                    <?php
+                    $rt = mysqli_query($con, "select * from tbl_roomtypes"); ?>
+                    <tr>
+                        <td><b>Room type</b></td>
+                        <td class="col-md-1"> <b> No.seats</b></td>
+                        <td class="col-md-1"><b>No.vipseats</b></td>
+                        <td class="col-md-2"><b>Charge</b></td>
+                        <td class="col-md-2"><b>VIP Charge</b></td>
+                        <td rowspan="<?php echo mysqli_num_rows($rt) + 1 ?>" style="text-align:right; font-size:140%" class="col-md-3">
+                            <b>Address</b><br>
+                            D9-501<br>
+                            1 Dai Co Viet Street<br>
+                            Hai Ba Trung District<br>
+                            Ha Noi Capital<br>
+                            <b>Contact</b><br>
+                            <i>0314159265</i>
+                        </td>
 
+                    </tr>
+                    <?php
+                    while ($roomtype = mysqli_fetch_array($rt)) {
+                    ?>
+                        <tr>
+                            <td><?php echo $roomtype['type_name']; ?></td>
+                            <td><?php echo $roomtype['seats']; ?></td>
+                            <td><?php echo $roomtype['vip']; ?></td>
+                            <td><?php echo $roomtype['charge']; ?></td>
+                            <td><?php echo $roomtype['vip_charge']; ?></td>
+                        </tr>
+
+                    <?php } ?>
+                </table>
+            </div>
+            <!-- /.box-footer-->
+        </div>
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
@@ -42,10 +82,6 @@ if (isset($_SESSION['success'])) {
                         <th class="col-md-1">Slno</th>
                         <th class="col-md-2">Room Name</th>
                         <th class="col-md-1">Type</th>
-                        <th class="col-md-1">No.seats</th>
-                        <th class="col-md-1">No.vipseats</th>
-                        <th class="col-md-2">Charge</th>
-                        <th class="col-md-2">VIP Charge</th>
                         <th class="text-right col-md-2"><button data-toggle="modal" data-target="#view-modal" id="getUser" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add Room</button></th>
                         <?php
                         $sl = 1;
@@ -55,16 +91,10 @@ if (isset($_SESSION['success'])) {
                                 <td><?php echo $sl; ?></td>
                                 <td><?php echo $screen['room_name']; ?></td>
                                 <td><?php echo $screen['type_name']; ?></td>
-                                <td><?php echo $screen['seats']; ?></td>
-                                <td><?php echo $screen['vip']; ?></td>
-                                <td><?php echo $screen['charge']; ?></td>
-                                <td><?php echo $screen['vip_charge']; ?></td>
-                                <td>
-                                    <center>
-                                        <div class="tools">
-                                            <button class="fa fa-trash-o" onclick="del(<?php echo $screen['room_id']; ?>)"></button>
-                                        </div>
-                                    </center>
+                                <td style="text-align: right;">
+                                    <div class="tools">
+                                        <button class="fa fa-trash-o" onclick="del(<?php echo $screen['room_id']; ?>)"></button>
+                                    </div>
                                 </td>
                             </tr>
                         <?php

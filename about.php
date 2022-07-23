@@ -1,6 +1,7 @@
 <?php
 include('header.php');
 unset($_SESSION['seatings']);
+unset($_SESSION['price_seat']);
 unset($_SESSION['amount']);
 unset($_SESSION['total_amount']);
 unset($_SESSION['combo_id']);

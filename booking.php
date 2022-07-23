@@ -156,11 +156,7 @@ $movie = mysqli_fetch_array($qry2);
                             <td colspan="3">
                                 <form action="process_booking.php" method="post">
                                     <input type="hidden" name="combo_id" value="<?php echo ($comboid = isset($_GET['combo_id']) ? $_GET['combo_id'] : NULL) ?>" />
-                                    <input type="hidden" name="seats" value="<?php foreach ($_SESSION['seatings'] as $seat) {
-                                                                                    echo $seat . " ";
-                                                                                } ?>" />
                                     <input type="hidden" name="amount" id="hm" value="<?php echo $_SESSION['total_amount']; ?>" />
-                                    <input type="hidden" name="date" value="<?php echo $shw['start_date'] ?>" />
                                     <?php if (!isset($_SESSION['seatings'])) { ?>
                                         <button class="btn btn-info" style="width:100%" disabled>Book Now</button>
                                     <?php } else { ?>

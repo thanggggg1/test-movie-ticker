@@ -99,7 +99,7 @@ include('footer.php');
 if (isset($_SESSION['success'])) {
 ?>
     <script>
-        alert("Add movie successfully");
+        alert(<?php echo $_SESSION['success']; ?>);
     </script>
 <?php
     unset($_SESSION['success']);

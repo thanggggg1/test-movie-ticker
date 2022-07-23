@@ -2,6 +2,9 @@
 session_start();
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 include('../../config.php');
+if (!isset($_SESSION['assistant'])) {
+    header("location:../index.php");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,10 +85,6 @@ include('../../config.php');
                                 </li>
                             </ul>
                         </li>
-                        <!-- Control Sidebar Toggle Button -->
-                        <li>
-                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                        </li>
                     </ul>
                 </div>
             </nav>
@@ -144,6 +143,14 @@ include('../../config.php');
                     <li class="treeview">
                         <a href="view_users.php">
                             <i class="fa fa-user"></i> <span>View Users</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="view_rooms.php">
+                            <i class="fa fa-institution"></i> <span>Theatre Details</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>

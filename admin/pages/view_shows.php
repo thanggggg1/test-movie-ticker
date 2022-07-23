@@ -68,10 +68,10 @@ $frm = new formBuilder;
         <?php
         if (!isset($_GET['mid'])) {
             if (isset($_GET['date'])) {
-                $sw = mysqli_query($con, "SELECT * FROM tbl_shows WHERE start_date ='" . $_GET['date'] . "'");
+                $sw = mysqli_query($con, "SELECT * FROM tbl_shows WHERE start_date ='" . $_GET['date'] . "' ORDER BY room_id ASC, start_time");
                 $title = 'Available Shows On ' . $_GET['date'];
             } else {
-                $sw = mysqli_query($con, "SELECT * FROM tbl_shows WHERE start_date = CURDATE()");
+                $sw = mysqli_query($con, "SELECT * FROM tbl_shows WHERE start_date = CURDATE() ORDER BY room_id ASC, start_time");
                 $title = 'Available Shows On ' . date('Y-m-d');
             }
 
@@ -84,7 +84,7 @@ $frm = new formBuilder;
             </p>
         <?php
         } else {
-            $sw = mysqli_query($con, "SELECT * FROM tbl_shows WHERE (start_date >= CURDATE()) AND movie_id = '" . $_GET['mid'] . "'");
+            $sw = mysqli_query($con, "SELECT * FROM tbl_shows WHERE (start_date >= CURDATE()) AND movie_id = '" . $_GET['mid'] . "' ORDER BY room_id ASC, start_time");
             $title = 'Available Shows';
         } ?>
 

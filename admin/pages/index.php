@@ -24,7 +24,7 @@ include('header.php');
             </div>
             <div class="box-body">
                 <?php
-                $sw = mysqli_query($con, "SELECT tbl_movie.movie_id,tbl_movie.movie_name,tbl_movie.release_date,COUNT(tbl_bookings.book_id) as no_bookings ,SUM(tbl_bookings.amount) as turnover FROM tbl_movie left join tbl_bookings on tbl_movie.movie_id=tbl_bookings.movie_id WHERE tbl_movie.release_date <= CURDATE() GROUP BY tbl_movie.movie_id");
+                $sw = mysqli_query($con, "SELECT m.movie_id,m.movie_name,m.release_date,COUNT(t.seat_id) as no_bookings ,SUM(t.price) as turnover FROM tbl_movie AS m left join tbl_shows AS s on m.movie_id=s.movie_id LEFT JOIN tbl_tickets AS t ON t.s_id = s.s_id WHERE m.release_date <= CURDATE() GROUP BY m.movie_id");
                 if (mysqli_num_rows($sw)) { ?>
                     <table class="table">
                         <th class="col-md-1">
@@ -37,7 +37,7 @@ include('header.php');
                             No.Showdays
                         </th>
                         <th class="col-md-2">
-                            No.Bookings
+                            No.SoldTickets
                         </th>
                         <th class="col-md-2">
                             Turnover

@@ -33,7 +33,7 @@ date_default_timezone_set("Asia/Ho_Chi_Minh");
                         <li><a href="index.php">Home</a></li>
                         <li><a href="movies_events.php">Movies</a></li>
                         <li><?php if (isset($_SESSION['user'])) {
-                                $us = mysqli_query($con, "select * from tbl_registration where user_id='" . $_SESSION['user'] . "'");
+                                $us = mysqli_query($con, "select * from tbl_users where user_id='" . $_SESSION['user'] . "'");
                                 $user = mysqli_fetch_array($us); ?><a href="profile.php"><?php echo $user['name']; ?></a><a href="logout.php">Logout</a><?php } else { ?><a href="login.php">Login</a> <a href="registration.php">Register</a><?php } ?></li>
                     </ul>
                 </div>

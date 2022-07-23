@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 21, 2022 at 11:11 AM
+-- Generation Time: Jul 23, 2022 at 03:04 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -29,33 +29,23 @@ USE `moviebookingdb`;
 -- Table structure for table `tbl_bookings`
 --
 
-DROP TABLE IF EXISTS `tbl_bookings`;
 CREATE TABLE `tbl_bookings` (
   `book_id` int(11) NOT NULL,
   `ticket_id` varchar(30) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `show_time` time NOT NULL,
-  `room_name` varchar(10) NOT NULL,
-  `movie_id` int(11) NOT NULL,
-  `movie_name` varchar(255) NOT NULL,
-  `seats` varchar(600) NOT NULL COMMENT 'id of seats',
   `amount` int(5) NOT NULL,
-  `ticket_date` date NOT NULL,
   `date` date NOT NULL,
-  `combo_id` int(11) DEFAULT NULL,
-  `combo_desc` varchar(255) DEFAULT NULL
+  `combo_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_bookings`
 --
 
-INSERT INTO `tbl_bookings` (`book_id`, `ticket_id`, `user_id`, `show_time`, `room_name`, `movie_id`, `movie_name`, `seats`, `amount`, `ticket_date`, `date`, `combo_id`, `combo_desc`) VALUES
-(6, 'TIK6', 1, '08:00:00', 'L01', 2, 'Cherry', 'B5 B7', 240, '2022-07-18', '2022-07-18', NULL, NULL),
-(8, 'TIK8', 2, '06:35:00', 'VIP01', 1, 'The Invisible Man', 'B5 B8', 475, '2022-07-20', '2022-07-19', 3, '1 Popcorn + 1 Drink Combo'),
-(9, 'TIK9', 2, '08:00:00', 'L01', 2, 'Cherry', 'C6 C7', 315, '2022-07-20', '2022-07-19', 3, '1 Popcorn + 1 Drink Combo'),
-(12, 'TIK12', 1, '00:00:00', 'IMAX01', 5, 'Justice League', 'E5 E7', 360, '2022-07-20', '2022-07-20', NULL, NULL),
-(13, 'TIK13', 2, '20:52:31', '3D01', 5, 'Justice League', 'E5 E7', 435, '2022-07-21', '2022-07-21', 4, '1 Popcorn + 2 Drinks Combo');
+INSERT INTO `tbl_bookings` (`book_id`, `ticket_id`, `user_id`, `amount`, `date`, `combo_id`) VALUES
+(1, 'TIK1', 2, 435, '2022-07-23', 4),
+(2, 'TIK2', 2, 360, '2022-07-23', NULL),
+(3, 'TIK3', 2, 455, '2022-07-23', 3);
 
 -- --------------------------------------------------------
 
@@ -63,7 +53,6 @@ INSERT INTO `tbl_bookings` (`book_id`, `ticket_id`, `user_id`, `show_time`, `roo
 -- Table structure for table `tbl_combos`
 --
 
-DROP TABLE IF EXISTS `tbl_combos`;
 CREATE TABLE `tbl_combos` (
   `combo_id` int(11) NOT NULL,
   `start_date` date NOT NULL,
@@ -90,7 +79,6 @@ INSERT INTO `tbl_combos` (`combo_id`, `start_date`, `end_date`, `week_date`, `de
 -- Table structure for table `tbl_login`
 --
 
-DROP TABLE IF EXISTS `tbl_login`;
 CREATE TABLE `tbl_login` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -111,7 +99,6 @@ INSERT INTO `tbl_login` (`id`, `user_id`, `username`, `password`) VALUES
 -- Table structure for table `tbl_login_admin`
 --
 
-DROP TABLE IF EXISTS `tbl_login_admin`;
 CREATE TABLE `tbl_login_admin` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -133,7 +120,6 @@ INSERT INTO `tbl_login_admin` (`id`, `username`, `password`, `user_type`) VALUES
 -- Table structure for table `tbl_movie`
 --
 
-DROP TABLE IF EXISTS `tbl_movie`;
 CREATE TABLE `tbl_movie` (
   `movie_id` int(11) NOT NULL,
   `movie_name` varchar(255) NOT NULL,
@@ -150,34 +136,21 @@ CREATE TABLE `tbl_movie` (
 --
 
 INSERT INTO `tbl_movie` (`movie_id`, `movie_name`, `cast`, `desc`, `release_date`, `image`, `video_url`, `length`) VALUES
-(1, 'The Invisible Man', 'Elisabeth Moss, Oliver Jackson-Cohen, Aldis Hodge, Storm Reid', 'Cecilia\'s abusive ex-boyfriend fakes his death and becomes invisible to stalk and torment her. She begins experiencing strange events and decides to hunt down the truth on her own.', '2022-07-04', 'images/tim.jpg', 'https://www.youtube.com/watch?v=WO_FJdiY9dA', 114),
-(2, 'Cherry', 'Tom Holland, Ciara Bravo, Harry Holland, Kelli Berglund', 'Cherry (Tom Holland) drifts from college dropout to army medic in Iraq-anchored only by his one true love, Emily (Ciara Bravo). But after returning from the war with PTSD, his life spirals into drugs.', '2022-07-05', 'images/cherry.jpg', 'https://www.youtube.com/watch?v=H5bH6O0bErk', 112),
-(3, 'Godzilla vs. Kong', 'Millie Bobby Brown, Alexander Skarsgard, Rebecca Hall', 'The initial confrontation between the two titans -- instigated by unseen forces -- is only the beginning of the mystery that lies deep within the core of the planet.', '2022-07-05', 'images/gvkpster.jpg', 'https://www.youtube.com/watch?v=odM92ap8_c0', 102),
-(5, 'Justice League', 'Ben Affleck, Henry Cavil, Ezra Miller', 'This is a demo description for the movie ZSJL.', '2022-06-22', 'images/zsjl.jpg', 'https://www.youtube.com/watch?v=vM-Bja2Gy04', 108),
-(6, 'DETECTIVE CONAN: THE BRIDE OF HALLOWEEN', 'Minami Takayama, Chafuurin, Tooru Furuya', 'During the wedding of Takagi and Sato, an assailant breaks and tries to attack Sato. But Takagi protects her while getting injured. The attacker escapes, but the situation is settled, although Sato is rightfully rattled by it all.', '2022-07-23', 'images/conan.jpg', 'https://youtu.be/SqSJPzWvcLc', 111);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_registration`
---
-
-DROP TABLE IF EXISTS `tbl_registration`;
-CREATE TABLE `tbl_registration` (
-  `user_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phone` varchar(12) NOT NULL,
-  `age` int(2) NOT NULL,
-  `gender` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_registration`
---
-
-INSERT INTO `tbl_registration` (`user_id`, `name`, `email`, `phone`, `age`, `gender`) VALUES
-(2, 'Hoai Nam', 'fuyuyukito@gmail.com', '9876543210', 20, 'male');
+(6, 'DETECTIVE CONAN: THE BRIDE OF HALLOWEEN', 'Minami Takayama, Chafuurin, Tooru Furuya', 'During the wedding of Takagi and Sato, an assailant breaks and tries to attack Sato. But Takagi protects her while getting injured. The attacker escapes, but the situation is settled, although Sato is rightfully rattled by it all.', '2022-07-23', 'images/conan.jpg', 'https://youtu.be/SqSJPzWvcLc', 111),
+(7, 'MINIONS: THE RISE OF GRU', 'Steve Carell, Lucy Lawless, Michelle Yeoh', 'The untold story of one twelve-year-olds dream to become the worlds greatest supervillain', '2022-07-24', 'images/minion2.jpg', 'https://youtu.be/dTQXlDV16SY', 88),
+(8, 'CHERRY MAGIC', ' Eiji Akaso, Keita Machida , Kodai Asaka, Yutaro, Takuya Kusakawa , Rei Sato, Suzunosuke', ' Adachi is a dull office worker who turned 30 as a virgin and has obtained MAGIC that enables him to read the minds of those he touches. Kurosawa is Adachi s lover at work and is popular and successful. They are secretly lovers. One day, Adachi is offered a job transfer. Adachi is happy to have the chance to do the work he wants, but his new job place is in Nagasaki, 1,200 km away. Through difficulties and challenges, their long distance relationship leads them to rethink about their relationship and their future. Where will the magic lead them?', '2022-07-15', 'images/cherrymagic.jpg', 'https://youtu.be/obTrN5__BAM', 104),
+(9, 'THOR: LOVE AND THUNDER', 'Chris Hemsworth, Tessa Thompson, Natalie Portman, Chris Pratt', 'Thor reunites with Valkyrie, Korg and his ex-girlfriend Jane Foster to fight the threat of Gorr, The God Butcher.', '2022-07-08', 'images/thor4.jpg', 'https://youtu.be/6_dk-s57jck', 118),
+(10, 'DECISION TO LEAVE', 'Tang Wei, Park Hae Il', 'A detective falls for a mysterious widow after she becomes the prime suspect in his latest murder investigation.', '2022-07-15', 'images/dtl.jpg', 'https://youtu.be/kdJvKwT2NAU', 130),
+(11, 'DC SUPER PETS', 'Dwayne Johnson, Kevin Hart, Keanu Reeves', 'Krypto the Super Dog and Superman are inseparable best friends, sharing the same superpowers and fighting crime side by side in Metropolis. However, Krypto must master his own powers for a rescue mission when Superman is kidnapped.', '2022-07-29', 'images/dcpets.jpg', 'https://youtu.be/GrBRGS6Z-jI', 106),
+(12, 'MY GIRL', 'Hong Je Yi, Kim Ji Young, Kim Mi Hwa, Hwang Seok Jeong, Shin Eun Hung, Jeon So Min, Yoon Mi Kyung, Jung In Ki', '19-year-old Yoon yeong lives alone with her mother and prepares for the civil service exam while working part-time. She wants to go to school like her friends, but prioritizes her exam and to pass it as soon as possible for the sake of her hearing-impaired mother. Regardless of good heart and sincere will, unexpected incidents turn Yoon-yeong from a victim to the killer, driving her to prison and being called inmate 2037.', '2022-07-29', 'images/mygirl.jpg', 'https://youtu.be/1AXeEfyTLKs', 111),
+(13, 'BULLET TRAIN', 'Brad Pitt, Joey King, Andrew Koji, Aaron Taylor Johnson, Brian Tyree Henry, Zazie Beetz, Masi Oka, Michael Shannon, Logan Lerman, Hiroyuki Sanada, Karen Fukuhara, Bad Bunny, Sandra Bullock', 'Five assassins aboard a fast moving bullet train find out their missions have something in common.', '2022-08-12', 'images/bullettrain.jpg', 'https://youtu.be/niy4sIjV858', 126),
+(14, 'WHERE THE CRAWDADS SING', 'Daisy Edgar Jones, Taylor John Smith, Harris Dickinson, David Strathairn, Jayson Warner Smith, Garret Dillahunt', 'A woman who raised herself in the marshes of the deep South becomes a suspect in the murder of a man she was once involved with', '2022-08-02', 'images/wtcs.jpg', 'https://youtu.be/S2jTTbz_hVs', 125),
+(15, 'BLACK ADAM', 'Dwayne Johnson, Sarah Shahi, Pierce Brosnan, Noah Centineo, Aldis Hodge, Joseph Gatt, Natalie Burn, Quintessa Swindell', 'Nearly 5,000 years after he was bestowed with the almighty powers of the ancient gods—and imprisoned just as quickly—Black Adam (Johnson) is freed from his earthly tomb, ready to unleash his unique form of justice on the modern world.', '2022-10-21', 'images/blackadam.jpg', 'https://youtu.be/aaLmjQtg2P8', 136),
+(16, 'GHOST BOOK 2022', 'Aragaki Yui, Kamiki Ryunosuke, Yoshimura Ayaka, Sonny Mcclendon, Shibazaki Fuga, Jyo Kairi', 'A story that depicts a number of trials, new encounters, and farewells awaiting children who have acquired a book, a ghost book that will fulfill any wish.', '2022-07-20', 'images/ghostbook.jpg', 'https://youtu.be/PMMy-oBSK0s', 96),
+(17, 'SHIN ULTRAMAN', 'Saito Takumi, Nagasawa Masami, Akari Hayami, Yamamoto Kohi, Arioka Daiki', 'The film is the tribute story of the Ultraman series, which is one of the most famous Tokusatsu series in Japan and around the world.', '2022-07-21', 'images/shinultraman.jpg', 'https://www.youtube.com/watch?v=eVFd_Semtao', 112),
+(18, 'KINGDOM 2', 'Kento Yamazaki, Ryo Yoshizawa, Kanna Hashimoto, Nana Seino, Takao Osawa', 'Based on manga series KINGDOM by Yasuhisa Hara (first published 2006 in weekly Japanese magazine Weekly Young Jump).', '2022-07-15', 'images/kingdom2.jpg', 'https://www.crunchyroll.com/anime-news/2022/05/05-1/world-changing-war-begins-in-kingdom-2-live-action-film-new-trailer', 134),
+(19, 'SUZUME NO TOJIMARI', 'Nanoka Hara', 'The film is about Suzume, a 17-year-old girl who lives in a quiet town in the Kyushu region of southwestern Japan. The story begins when Suzume meets a young man looking for a \"door\". The two travel together and find an old door at an abandoned house in the mountains. As if pulled by something, Suzume reaches out her hand towards the door and is pulled in. \"Doors of Disaster\" begin to appear across Japan, which started a series of unfortunate disasters.', '2022-11-11', 'images/suzume.jpg', 'https://www.cwfilms.jp/en/news/article/a_new_poster_has_been_released_featuring_the_main_character.html', 115),
+(20, 'THE WITCH: PART 2.THE OTHER ONE', 'Shin Shi A, Lee Jong Suk, Park Eun Bin, Jin Goo, Kim Da Mi', 'Somewhere, a girl wakes up in a huge secret laboratory. The girl accidentally meets Kyung-hee who is trying to protect her house from the gang who harassed her. When the gang bumps into the girl, they are overpowered by an unexpected power of her. In the meantime, the secret laboratory starts to find the missing girl. Who is this mysterious girl and why is she being chased?', '2022-07-11', 'images/stnt.jpg', 'https://youtu.be/pDkRx2yF0YA', 138);
 
 -- --------------------------------------------------------
 
@@ -185,7 +158,6 @@ INSERT INTO `tbl_registration` (`user_id`, `name`, `email`, `phone`, `age`, `gen
 -- Table structure for table `tbl_rooms`
 --
 
-DROP TABLE IF EXISTS `tbl_rooms`;
 CREATE TABLE `tbl_rooms` (
   `room_id` int(11) NOT NULL,
   `room_name` varchar(10) NOT NULL,
@@ -203,7 +175,8 @@ INSERT INTO `tbl_rooms` (`room_id`, `room_name`, `type_id`) VALUES
 (4, 'IMAX01', 4),
 (5, '3D01', 5),
 (6, 'IMAX02', 4),
-(7, 'VIP02', 3);
+(7, 'VIP02', 3),
+(9, 'S02', 2);
 
 -- --------------------------------------------------------
 
@@ -211,7 +184,6 @@ INSERT INTO `tbl_rooms` (`room_id`, `room_name`, `type_id`) VALUES
 -- Table structure for table `tbl_roomtypes`
 --
 
-DROP TABLE IF EXISTS `tbl_roomtypes`;
 CREATE TABLE `tbl_roomtypes` (
   `type_id` int(11) NOT NULL,
   `type_name` varchar(10) NOT NULL,
@@ -238,7 +210,6 @@ INSERT INTO `tbl_roomtypes` (`type_id`, `type_name`, `seats`, `vip`, `charge`, `
 -- Table structure for table `tbl_shows`
 --
 
-DROP TABLE IF EXISTS `tbl_shows`;
 CREATE TABLE `tbl_shows` (
   `s_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
@@ -253,37 +224,52 @@ CREATE TABLE `tbl_shows` (
 --
 
 INSERT INTO `tbl_shows` (`s_id`, `room_id`, `movie_id`, `start_date`, `start_time`, `end_time`) VALUES
-(1, 1, 2, '2022-07-22', '08:00:00', '10:00:00'),
-(4, 4, 5, '2022-07-22', '00:00:00', '02:00:00'),
-(5, 5, 5, '2022-07-21', '20:52:31', '23:52:31'),
-(6, 3, 1, '2022-07-22', '12:55:00', '14:49:00');
+(7, 6, 6, '2022-07-23', '21:00:00', '22:51:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tmp_seats`
+-- Table structure for table `tbl_tickets`
 --
 
-DROP TABLE IF EXISTS `tmp_seats`;
-CREATE TABLE `tmp_seats` (
+CREATE TABLE `tbl_tickets` (
   `s_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
-  `seat_id` varchar(5) NOT NULL
+  `seat_id` varchar(5) NOT NULL,
+  `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tmp_seats`
+-- Dumping data for table `tbl_tickets`
 --
 
-INSERT INTO `tmp_seats` (`s_id`, `book_id`, `seat_id`) VALUES
-(1, 6, 'B5'),
-(1, 6, 'B7'),
-(1, 9, 'C6'),
-(1, 9, 'C7'),
-(4, 12, 'E5'),
-(4, 12, 'E7'),
-(5, 13, 'E5'),
-(5, 13, 'E7');
+INSERT INTO `tbl_tickets` (`s_id`, `book_id`, `seat_id`, `price`) VALUES
+(7, 1, 'D5', 180),
+(7, 1, 'D7', 180),
+(7, 2, 'E4', 180),
+(7, 2, 'E6', 180);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_users`
+--
+
+CREATE TABLE `tbl_users` (
+  `user_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phone` varchar(12) NOT NULL,
+  `age` int(2) NOT NULL,
+  `gender` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`user_id`, `name`, `email`, `phone`, `age`, `gender`) VALUES
+(2, 'Hoai Nam', 'fuyuyukito@gmail.com', '9876543210', 20, 'male');
 
 --
 -- Indexes for dumped tables
@@ -321,12 +307,6 @@ ALTER TABLE `tbl_movie`
   ADD PRIMARY KEY (`movie_id`);
 
 --
--- Indexes for table `tbl_registration`
---
-ALTER TABLE `tbl_registration`
-  ADD PRIMARY KEY (`user_id`);
-
---
 -- Indexes for table `tbl_rooms`
 --
 ALTER TABLE `tbl_rooms`
@@ -348,11 +328,17 @@ ALTER TABLE `tbl_shows`
   ADD KEY `fk_rooms` (`room_id`);
 
 --
--- Indexes for table `tmp_seats`
+-- Indexes for table `tbl_tickets`
 --
-ALTER TABLE `tmp_seats`
+ALTER TABLE `tbl_tickets`
   ADD PRIMARY KEY (`s_id`,`book_id`,`seat_id`),
   ADD KEY `fk_bookings` (`book_id`);
+
+--
+-- Indexes for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -362,7 +348,7 @@ ALTER TABLE `tmp_seats`
 -- AUTO_INCREMENT for table `tbl_bookings`
 --
 ALTER TABLE `tbl_bookings`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_combos`
@@ -386,19 +372,13 @@ ALTER TABLE `tbl_login_admin`
 -- AUTO_INCREMENT for table `tbl_movie`
 --
 ALTER TABLE `tbl_movie`
-  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `tbl_registration`
---
-ALTER TABLE `tbl_registration`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_rooms`
 --
 ALTER TABLE `tbl_rooms`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_roomtypes`
@@ -410,7 +390,13 @@ ALTER TABLE `tbl_roomtypes`
 -- AUTO_INCREMENT for table `tbl_shows`
 --
 ALTER TABLE `tbl_shows`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -420,7 +406,7 @@ ALTER TABLE `tbl_shows`
 -- Constraints for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  ADD CONSTRAINT `fk_regis` FOREIGN KEY (`user_id`) REFERENCES `tbl_registration` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_regis` FOREIGN KEY (`user_id`) REFERENCES `tbl_users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `tbl_rooms`
@@ -436,11 +422,11 @@ ALTER TABLE `tbl_shows`
   ADD CONSTRAINT `fk_rooms` FOREIGN KEY (`room_id`) REFERENCES `tbl_rooms` (`room_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `tmp_seats`
+-- Constraints for table `tbl_tickets`
 --
-ALTER TABLE `tmp_seats`
+ALTER TABLE `tbl_tickets`
   ADD CONSTRAINT `fk_bookings` FOREIGN KEY (`book_id`) REFERENCES `tbl_bookings` (`book_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `tmp_seats_ibfk_1` FOREIGN KEY (`s_id`) REFERENCES `tbl_shows` (`s_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `tbl_tickets_ibfk_1` FOREIGN KEY (`s_id`) REFERENCES `tbl_shows` (`s_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

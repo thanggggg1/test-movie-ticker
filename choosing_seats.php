@@ -8,7 +8,7 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
     $shw = mysqli_fetch_array($s);
     $ro = mysqli_query($con, "SELECT r.room_name,t.seats,t.vip,t.charge,t.vip_charge FROM tbl_rooms AS r INNER JOIN tbl_roomtypes AS t ON r.type_id = t.type_id WHERE room_id='" . $shw['room_id'] . "'");
     $room = mysqli_fetch_array($ro);
-    $qry_seats = "SELECT seat_id FROM tmp_seats WHERE s_id ='" . $_SESSION['show'] . "'";
+    $qry_seats = "SELECT seat_id FROM tbl_tickets WHERE s_id ='" . $_SESSION['show'] . "'";
     $seats_choosen = array();
     if (isset($_SESSION['seatings'])) foreach ($_SESSION['seatings'] as $seat_choosen) {
         $seats_choosen[] = $seat_choosen;
@@ -212,17 +212,22 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
     if (isset($_POST['submit_seat'])) {
         unset($_SESSION['seatings']);
         unset($_SESSION['amount']);
+        unset($_SESSION['price_seat']);
         $amount = 0;
+        $price_seat = array();
         foreach ($_POST['a'] as $seat) {
             $tmp = ord(substr($seat, 0, 1)) - ord('A') + 1;
             if ($tmp <= ($row_seats - $row_vip)) {
                 $amount = $amount + $room['charge'];
+                $price_seat[$seat] = $room['charge'];
             } else {
                 $amount = $amount + $room['vip_charge'];
+                $price_seat[$seat] = $room['vip_charge'];
             }
         }
         if ($amount != 0) {
             $_SESSION['seatings'] = $_POST['a'];
+            $_SESSION['price_seat'] = $price_seat;
             $_SESSION['amount'] = $amount;
         }
     ?>

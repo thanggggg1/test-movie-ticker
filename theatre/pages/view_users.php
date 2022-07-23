@@ -68,9 +68,9 @@ if (isset($_SESSION['status'])) {
             <div class="box-body">
                 <?php
                 if (!isset($_GET['uid'])) {
-                    $sw = mysqli_query($con, "SELECT * FROM tbl_registration");
+                    $sw = mysqli_query($con, "SELECT * FROM tbl_users");
                 } else {
-                    $sw = mysqli_query($con, "SELECT * FROM tbl_registration WHERE user_id = '" . $_GET['uid'] . "'");
+                    $sw = mysqli_query($con, "SELECT * FROM tbl_users WHERE user_id = '" . $_GET['uid'] . "'");
                 }
 
                 if (mysqli_num_rows($sw)) { ?>
