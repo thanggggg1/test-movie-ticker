@@ -73,6 +73,7 @@ include('header.php');
                                     <div class="tools">
                                         <button class="fa fa-eye" onclick="viewshow(<?php echo $shows['movie_id']; ?>)"></button>
                                         <button class="fa fa-trash-o" onclick="del(<?php echo $shows['movie_id']; ?>)"></button>
+                                        <button class="fa fa-edit" onclick="update(<?php echo $shows['movie_id']; ?>)"></button>
                                     </div>
                                 </td>
                             </tr>
@@ -129,6 +130,7 @@ include('header.php');
                                 <td>
                                     <div class="tools">
                                         <button class="fa fa-trash-o" onclick="del(<?php echo $shows['movie_id']; ?>)"></button>
+                                        <button class="fa fa-edit" onclick="update(<?php echo $shows['movie_id']; ?>)"></button>
                                     </div>
                                 </td>
                             </tr>
@@ -173,5 +175,10 @@ include('footer.php');
 <script>
     function viewshow(m) {
         window.location = "view_shows.php?mid=" + m;
+    }
+</script>
+<script>
+    function update(m) {
+        window.location = "update_movie.php?mid=" + m;
     }
 </script>

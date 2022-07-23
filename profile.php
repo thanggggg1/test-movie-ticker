@@ -18,6 +18,59 @@ if (isset($_SESSION['success'])) {
         <div class="content-top">
             <div class="section group">
                 <div class="about span_1_of_2">
+                    <h3 style="color:black;" class="text-center">YOUR INFORMATION </h3>
+
+                    <?php include('msgbox.php'); ?>
+                    <?php
+                    $usr = mysqli_query($con, "SELECT * FROM tbl_users WHERE `user_id` = '" . $_SESSION['user'] . "'");
+                    $user = mysqli_fetch_array($usr);
+                    ?>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>
+                                <b>Name: </b>
+                            </td>
+                            <td><?php echo $user['name']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Email: </b>
+                            </td>
+                            <td><?php echo $user['email']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Phone number: </b>
+                            </td>
+                            <td><?php echo $user['phone']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Age: </b>
+                            </td>
+                            <td><?php echo $user['age']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Gender: </b>
+                            </td>
+                            <td><?php echo $user['gender']; ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Total spending: </b>
+                            </td>
+                            <?php
+                            $spd = mysqli_query($con, "SELECT SUM(amount) as spending FROM tbl_bookings WHERE `user_id` ='" . $_SESSION['user'] . "' GROUP BY user_id");
+                            $spending = mysqli_fetch_array($spd)['spending'];
+                            ?>
+
+                            <td>
+                                <b> <?php echo (empty($spending) ? '0' : $spending . ' 000'); ?> <u>đ</u> </b>
+                            </td>
+                        </tr>
+                    </table>
+                    <a href="change_info.php" style="color:red; text-align:right"> &lt; Change Your Information &gt; </a>
                     <h3 style="color:black;" class="text-center">RECENT BOOKINGS </h3>
                     <?php include('msgbox.php'); ?>
                     <?php

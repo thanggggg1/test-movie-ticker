@@ -1,8 +1,9 @@
 <?php
-session_start();
 include('../../config.php');
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+session_start();
 extract($_POST);
-if ($date <= date('Y-m-d')) {
+if ($sdate <= date('Y-m-d')) {
     $_SESSION['success'] = "Invalid date!";
     header('location:add_show.php');
 } else {
@@ -20,7 +21,7 @@ if ($date <= date('Y-m-d')) {
             }
         }
     }
-    if (!empty($chk)) {
+    if (empty($chk)) {
         $_SESSION['success'] = "This show coincides with another show!";
         header('location:view_shows.php?date=' . $sdate);
     } else {
