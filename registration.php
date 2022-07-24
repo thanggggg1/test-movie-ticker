@@ -1,4 +1,14 @@
 <?php include('header.php'); ?>
+<?php
+if (isset($_SESSION['error'])) {
+?>
+    <script>
+        alert(<?php echo $_SESSION['error']; ?>);
+    </script>
+<?php
+    unset($_SESSION['error']);
+}
+?>
 <link rel="stylesheet" href="validation/dist/css/bootstrapValidator.css" />
 
 <script type="text/javascript" src="validation/dist/js/bootstrapValidator.js"></script>

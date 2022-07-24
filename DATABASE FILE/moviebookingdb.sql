@@ -38,14 +38,6 @@ CREATE TABLE `tbl_bookings` (
   `combo_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_bookings`
---
-
-INSERT INTO `tbl_bookings` (`book_id`, `ticket_id`, `user_id`, `amount`, `date`, `combo_id`) VALUES
-(1, 'TIK1', 2, 435, '2022-07-23', 4),
-(2, 'TIK2', 2, 360, '2022-07-23', NULL),
-(3, 'TIK3', 2, 455, '2022-07-23', 3);
 
 -- --------------------------------------------------------
 
@@ -86,12 +78,6 @@ CREATE TABLE `tbl_login` (
   `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_login`
---
-
-INSERT INTO `tbl_login` (`id`, `user_id`, `username`, `password`) VALUES
-(5, 2, 'fuyuyukito@gmail.com', '123456789');
 
 -- --------------------------------------------------------
 
@@ -239,16 +225,6 @@ CREATE TABLE `tbl_tickets` (
   `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_tickets`
---
-
-INSERT INTO `tbl_tickets` (`s_id`, `book_id`, `seat_id`, `price`) VALUES
-(7, 1, 'D5', 180),
-(7, 1, 'D7', 180),
-(7, 2, 'E4', 180),
-(7, 2, 'E6', 180);
-
 -- --------------------------------------------------------
 
 --
@@ -264,12 +240,6 @@ CREATE TABLE `tbl_users` (
   `gender` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_users`
---
-
-INSERT INTO `tbl_users` (`user_id`, `name`, `email`, `phone`, `age`, `gender`) VALUES
-(2, 'Hoai Nam', 'fuyuyukito@gmail.com', '9876543210', 20, 'male');
 
 --
 -- Indexes for dumped tables
@@ -360,7 +330,7 @@ ALTER TABLE `tbl_combos`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `tbl_login_admin`

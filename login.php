@@ -33,3 +33,13 @@
     </div>
     <?php include('footer.php'); ?>
 </div>
+<?php
+if (isset($_SESSION['error'])) {
+?>
+    <script>
+        alert(<?php echo $_SESSION['error'] ?>);
+    </script>
+<?php
+    unset($_SESSION['error']);
+}
+?>
