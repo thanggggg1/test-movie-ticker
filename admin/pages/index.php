@@ -24,7 +24,7 @@ include('header.php');
             </div>
             <div class="box-body">
                 <?php
-                $sw = mysqli_query($con, "SELECT m.movie_id,m.movie_name,m.release_date,COUNT(t.seat_id) as no_bookings ,SUM(t.price) as turnover FROM tbl_movie AS m left join tbl_shows AS s on m.movie_id=s.movie_id LEFT JOIN tbl_tickets AS t ON t.s_id = s.s_id WHERE m.release_date <= CURDATE() GROUP BY m.movie_id");
+                $sw = mysqli_query($con, "SELECT m.movie_id,m.movie_name,m.release_date,m.tickets,m.turnover,COUNT(t.seat_id) as no_bookings ,SUM(t.price) as tmp_turnover FROM tbl_movie AS m left join tbl_shows AS s on m.movie_id=s.movie_id LEFT JOIN tbl_tickets AS t ON t.s_id = s.s_id WHERE m.release_date <= CURDATE() GROUP BY m.movie_id");
                 if (mysqli_num_rows($sw)) { ?>
                     <table class="table">
                         <th class="col-md-1">
@@ -64,10 +64,10 @@ include('header.php');
                                     ?>
                                 </td>
                                 <td>
-                                    <?php echo $shows['no_bookings'] ?>
+                                    <?php echo $shows['no_bookings'] + $shows['tickets']; ?>
                                 </td>
                                 <td>
-                                    <?php echo ($turnover = empty($shows['turnover']) ? '0' : $shows['turnover'] . ' 000'); ?> <u>đ</u>
+                                    <?php echo ($turnover = empty($shows['turnover'] + $shows['tmp_turnover']) ? '0' : $shows['turnover'] + $shows['tmp_turnover'] . ' 000'); ?> <u>đ</u>
                                 </td>
                                 <td>
                                     <div class="tools">

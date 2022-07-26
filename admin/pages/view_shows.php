@@ -145,30 +145,35 @@ $frm = new formBuilder;
                                     <?php
                                     $today = date('Y-m-d');
                                     $now = date('H:i:s');
-                                    if ($shows['start_date'] == $today) {
-                                        if ($shows['start_time'] > $now) {
+                                    if ($shows['start_date'] >= $today) {
+                                        $sh = mysqli_query($con, "SELECT s_id FROM tbl_tickets WHERE s_id = '" . $shows['s_id'] . "'");
+                                        if (mysqli_num_rows($sh)) {
+                                            if ($shows['start_date'] == $today) {
+                                                if ($shows['start_time'] > $now) {
                                     ?>
-                                            <div class="tools">
-                                                <button class="fa fa-trash-o" onclick="del(<?php echo $shows['s_id']; ?>)"></button>
-                                            </div>
-                                        <?php
-                                        } else if (($shows['end_time'] < $now)) {
-                                        ?>
-                                            <i class="glyphicon glyphicon-ok"></i>
-                                        <?php
+                                                    <span class="badge bg-blue">Showing soon... </span>
+                                                <?php
+                                                } else if (($shows['end_time'] < $now)) {
+                                                ?>
+                                                    <i class="glyphicon glyphicon-ok"></i>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <span class="badge bg-red">Showing</span>
+                                                <?php
+                                                }
+                                            } else if ($shows['start_date'] > $today) {
+                                                ?>
+                                                <span class="badge bg-green">Waiting for the show date ... </span>
+                                            <?php
+                                            }
                                         } else {
-                                        ?>
-                                            <span class="badge bg-red">Showing</span>
+                                            ?>
+                                            <button class="fa fa-trash-o" onclick="del(<?php echo $shows['s_id']; ?>)"></button>
                                         <?php
                                         }
-                                    } else if ($shows['start_date'] > $today) {
-                                        ?>
-                                        <div class="tools">
-                                            <button class="fa fa-trash-o" onclick="del(<?php echo $shows['s_id']; ?>)"></button>
-                                        </div>
-                                    <?php
                                     } else {
-                                    ?>
+                                        ?>
                                         <i class="glyphicon glyphicon-ok"></i>
                                     <?php
                                     }
