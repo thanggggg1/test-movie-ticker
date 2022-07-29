@@ -2,14 +2,14 @@
 <div class="content">
     <div class="wrap">
         <div class="content-top">
-            <h2 style="color:#555;text-align:center">(NOW SHOWING)</h2>
-            <a href="movies_comingsoon.php" style="text-decoration:none;">
-                <h5 style="color:#757575; text-align:center">COMING SOON &gt;</h5>
+            <h2 style="color:#555;text-align:center">(COMING SOON)</h2>
+            <a href="movies_events.php" style="text-decoration:none;">
+                <h5 style="color:#757575; text-align:center">&lt; NOW SHOWING</h5>
             </a>
         </div>
         <?php
         $today = date("Y-m-d");
-        $qry2 = mysqli_query($con, "select * from  tbl_movie where release_date <= CURDATE()");
+        $qry2 = mysqli_query($con, "select * from  tbl_movie where release_date > CURDATE()");
 
         while ($m = mysqli_fetch_array($qry2)) {
         ?>
@@ -20,8 +20,6 @@
                     </div>
                     <div class="movie-text">
                         <h4 class="h-text"><a href="about.php?id=<?php echo $m['movie_id']; ?>" style="text-decoration:none;"><?php echo $m['movie_name']; ?></a></h4>
-                        Cast: <Span class="color2" style="text-decoration:none;"><?php echo $m['cast']; ?></span><br>
-
                     </div>
                 </div>
             </div>
