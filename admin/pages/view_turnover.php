@@ -4,6 +4,8 @@ include('header.php');
 <link rel="stylesheet" href="../../validation/dist/css/bootstrapValidator.css" />
 
 <script type="text/javascript" src="../../validation/dist/js/bootstrapValidator.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
 <?php
 include('../../form.php');
 $frm = new formBuilder;
@@ -99,6 +101,7 @@ $frm = new formBuilder;
             $year = $_GET['year'];
         }
         $result_array = array();
+        $result_key=array();
         if ($month != 0) {
             $mto = mysqli_query($con, "SELECT SUM(amount)as t_amount,date FROM tbl_bookings WHERE MONTH(date) = '$month' AND YEAR(date) = '$year' GROUP BY date ORDER BY date");
             $m_turnover = 0;
@@ -126,26 +129,46 @@ $frm = new formBuilder;
                 $y_turnover += $y_fetch['t_amount'];
                 $result_array[date('Y-m-t', strtotime($y_fetch['date']))] += $y_fetch['t_amount'];
             } ?>
-                <div> The year turnover: <?php echo $y_amount = empty($y_turnover) ? 0 : $y_turnover . ' 000'; ?> <u>đ</u></div>
+                <div style ="font-weight:bold"> The year turnover: <?php echo $y_amount = empty($y_turnover) ? 0 : $y_turnover . ' 000'; ?> <u>đ</u></div>
                 <table class="table">
-                    <th class="col-md-2">Month</th>
-                    <th class="col-md-2">Turnover</th>
+                
                 <?php
             }
             foreach ($result_array as $key => $value) {
                 ?>
-                    <tr>
-                        <td>
-                            <?php echo $key = (empty($month)) ? date('F', strtotime($key)) : $key; ?>
-                        </td>
-                        <td>
-                            <?php echo $amount = (empty($value)) ? 0 : $value . ' 000'; ?> <u>đ</u>
-                        </td>
-                    </tr>
+                   <?php array_push($result_key,(empty($month)) ? date('m', strtotime($key))  : date("j", strtotime($key)))?>
                 <?php
             }
+       
                 ?>
                 </table>
+                <canvas id="myChart" style="width:100%;max-width:900px"></canvas>                
+                <script type="text/javascript">
+                var xValues = [<?php echo implode(", ",$result_key) ?>]
+                var yValues = [<?php echo implode(", ",$result_array) ?>]
+                var barColors = [ "green","green","green","green","green","green","green","green","green","green","green","green","green","green","green",
+                "green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green"
+            ,"green","green","green","green","green","green","green","green"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "RHUST Cinema Turn Over"
+    }
+  }
+});
+</script>
+        
     </section>
 </div>
 <?php

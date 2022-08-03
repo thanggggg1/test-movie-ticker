@@ -50,6 +50,8 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
     <link href="css/animate.css" type='text/css' rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 
 </head>
 
@@ -117,7 +119,9 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
     </div>
     <div>
         <center>
-            <h2> Screen this way</h2>
+            <div class="font-img background-screen">
+                Please choose your seat
+            </div>
         </center>
     </div>
     <?php
@@ -125,10 +129,17 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
     $row_seats = (int)($room['seats'] / 12);
     $row_vip = (int)($room['vip'] / 12);
     $count_col = 0;
-    $count_row = 0; ?>
-    <form method="post">
-        <div>
+    $count_row = 0;
+    print ' <script type="text/javascript">
+      var carnr;        
+      carnr = "' . $col_seats . '"
+      console.log(carnr);
+</script>';
+    ?>
 
+    <form method="post">
+        <div class="background-screen">
+            <div class="background-div"></div>
             <center>
                 <table>
                     <tr>
@@ -136,7 +147,7 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                         <?php
                         for ($count_col = 1; $count_col <= $col_seats; $count_col++) {
                         ?>
-                            <td><?php echo $count_col ?></td>
+                            <td style="color:#d8a354"><?php echo $count_col ?></td>
                         <?php
                         }
 
@@ -148,19 +159,24 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                     for ($count_row = 1; $count_row <= $row_seats - $row_vip; $count_row++) {
                     ?>
                         <tr>
-                            <td><?php echo chr(ord('A') - 1 + $count_row); ?></td>
+                            <td style="padding-bottom:20px;color:#d8a354"><?php echo chr(ord('A') - 1 + $count_row); ?></td>
                             <?php
                             for ($count_col = 1; $count_col <= $col_seats; $count_col++) {
                                 $value = chr(ord('A') - 1 + $count_row) . $count_col;
                             ?>
                                 <td>
-                                    <input type="checkbox" class="seats" name="a[]" <?php
-                                                                                    if (in_array($value, $seats_choosen)) {
-                                                                                        echo "checked ";
-                                                                                    } else if (in_array($value, $seats_booked)) {
-                                                                                        echo "checked ";
-                                                                                        echo " disabled";
-                                                                                    } ?> value=<?php echo $value ?>>
+                                    <label class="container-seat">
+                                        <input type="checkbox" class="seats" value=<?php echo $value ?> name="a[]">
+                                        <span class="checkmark"></span>
+                                        <img src=<?php if (in_array($value, $seats_choosen)) {
+                                                        echo "./images/ic_couch_active.svg";
+                                                    } else if (in_array($value, $seats_booked)) {
+                                                        echo "./images/ic_couch_active.svg";
+                                                    } else {
+                                                        echo "./images/ic_couch_inactive.svg";
+                                                    } ?> width="40px" height="40px">
+
+                                    </label>
                                 </td>
                             <?php
                             }
@@ -178,19 +194,25 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                     for ($count_row; $count_row <= $row_seats; $count_row++) {
                     ?>
                         <tr>
-                            <td><?php echo chr(ord('A') - 1 + $count_row); ?></td>
+                            <td style="padding-bottom:20px;color:#d8a354"><?php echo chr(ord('A') - 1 + $count_row); ?></td>
                             <?php
                             for ($count_col = 1; $count_col <= $col_seats; $count_col++) {
                                 $value = chr(ord('A') - 1 + $count_row) . $count_col;
                             ?>
                                 <td>
-                                    <input type="checkbox" class="seats" name="a[]" <?php
-                                                                                    if (in_array($value, $seats_choosen)) {
-                                                                                        echo "checked ";
-                                                                                    } else if (in_array($value, $seats_booked)) {
-                                                                                        echo "checked ";
-                                                                                        echo " disabled";
-                                                                                    } ?> value=<?php echo $value ?>>
+
+                                    <label class="container-seat">
+                                        <input type="checkbox" class="seats" value=<?php echo $value ?> name="a[]">
+                                        <span class="checkmark"></span>
+                                        <img src=<?php if (in_array($value, $seats_choosen)) {
+                                                        echo "./images/ic_couch_active.svg";
+                                                    } else if (in_array($value, $seats_booked)) {
+                                                        echo "./images/ic_couch_active.svg";
+                                                    } else {
+                                                        echo "./images/ic_couch_inactive.svg";
+                                                    } ?> width="40px" height="40px">
+
+                                    </label>
                                 </td>
                             <?php
                             }
@@ -200,14 +222,25 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                     }
                     ?>
                 </table>
+                <div class="row-div">
+                    <p style="color:#ccc">Booked Seat</p>
+                    <img width="40px" height="40px" src="./images/ic_couch_active.svg">
+                    <p style="color:#ccc">Free Seat</p>
+                    <img width="40px" height="40px" src="./images/ic_couch_inactive.svg">
+
+                </div>
             </center>
         </div>
-        <div>
+        <div class="background-screen" style="padding-top:40px;padding-bottom:40px">
             <center>
-                <input type="submit" name='submit_seat' value="Confirm Selection">
+                <input type="submit" name='submit_seat' value="Confirm Selection" class="w3-button w3-black">
             </center>
         </div>
     </form>
+
+
+
+
     <?php
     if (isset($_POST['submit_seat'])) {
         unset($_SESSION['seatings']);
@@ -231,17 +264,16 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
             $_SESSION['amount'] = $amount;
         }
     ?>
-        <form>
+        <form class="background-screen">
             <?php
             if ($amount != 0) {
             ?>
                 <center>
                     <table>
                         <tr>
-
-                            <th>Number of Seats</th>
-                            <th>Seats</th>
-                            <th>Amount</th>
+                            <th class="font-table">Number of Seats</th>
+                            <th class="font-table">Seats</th>
+                            <th class="font-table">Amount</th>
                         </tr>
                         <tr>
 
@@ -254,21 +286,34 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                                                 echo $seat . " ";
                                             } ?></textarea>
                             </td>
-
                             <td>
                                 <textarea><?php echo $amount; ?>
 							</textarea>
                             </td>
-
                         </tr>
                 </center>
                 </table>
             <?php } ?>
-            <center><a href="booking.php">Confirm <?php echo $amount; ?></a> </center>
+            <center><a href="booking.php">
+                    <button class="w3-button w3-black">Confirm <?php echo $amount; ?>.000đ</button>
+                </a> </center>
         </form>
     <?php
     }
     ?>
+    <!-- <div class="w3-container">
+        <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>
+
+        <div id="id01" class="w3-modal">
+            <div class="w3-modal-content">
+                <div class="w3-container">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                    <p>Some text. Some text. Some text.</p>
+                    <p>Some text. Some text. Some text.</p>
+                </div>
+            </div>
+        </div>
+    </div> -->
 </body>
 
 </html>
