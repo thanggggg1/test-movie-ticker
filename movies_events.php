@@ -19,8 +19,11 @@
                         <a href="about.php?id=<?php echo $m['movie_id']; ?>"><img src="<?php echo $m['image']; ?>" alt="" style="width: 259px; height: 383px; object-fit: fill;" /></a>
                     </div>
                     <div class="movie-text">
-                        <h4 class="h-text"><a href="about.php?id=<?php echo $m['movie_id']; ?>" style="text-decoration:none;"><?php echo $m['movie_name']; ?></a></h4>
+                        <h4 class="h-text text_one_line"><a href="about.php?id=<?php echo $m['movie_id']; ?>" style="text-decoration:none;"><?php echo $m['movie_name']; ?></a></h4>
+                        <div class="text_one_line">
                         Cast: <Span class="color2" style="text-decoration:none;"><?php echo $m['cast']; ?></span><br>
+
+                        </div>
 
                     </div>
                 </div>

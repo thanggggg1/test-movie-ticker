@@ -49,12 +49,12 @@ date_default_timezone_set("Asia/Ho_Chi_Minh");
 
                 <form action="process_search.php" id="reservation-form" method="get" onsubmit="myFunction()">
                     <fieldset>
-                        <div class="field">
+                        <div class="field" style="margin-bottom:20px;display:flex;align-items:center">
 
 
                             <input type="text" placeholder="Enter A Movie Name" style="height:30px;width:300px" required id="search111" name="search">
 
-                            <input type="submit" value="Search" style="height:34px;padding-top:3px" id="button111">
+                            <input type="submit" value="Search" style="height:30px;padding-top:3px" id="button111">
                         </div>
 
                     </fieldset>

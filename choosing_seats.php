@@ -166,7 +166,14 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                             ?>
                                 <td>
                                     <label class="container-seat">
-                                        <input type="checkbox" class="seats" value=<?php echo $value ?> name="a[]">
+                                        <input type="checkbox" class="seats" value=<?php echo $value ?> name="a[]"
+                                        <?php
+                                                                                    if (in_array($value, $seats_choosen)) {
+                                                                                        echo "checked ";
+                                                                                    } else if (in_array($value, $seats_booked)) {
+                                                                                        echo "checked ";
+                                                                                        echo " disabled";
+                                                                                    } ?>>
                                         <span class="checkmark"></span>
                                         <img src=<?php if (in_array($value, $seats_choosen)) {
                                                         echo "./images/ic_couch_active.svg";
@@ -202,7 +209,14 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
                                 <td>
 
                                     <label class="container-seat">
-                                        <input type="checkbox" class="seats" value=<?php echo $value ?> name="a[]">
+                                        <input type="checkbox" class="seats" value=<?php echo $value ?> name="a[]"
+                                        <?php
+                                                                                    if (in_array($value, $seats_choosen)) {
+                                                                                        echo "checked ";
+                                                                                    } else if (in_array($value, $seats_booked)) {
+                                                                                        echo "checked ";
+                                                                                        echo " disabled";
+                                                                                    } ?>>
                                         <span class="checkmark"></span>
                                         <img src=<?php if (in_array($value, $seats_choosen)) {
                                                         echo "./images/ic_couch_active.svg";
@@ -269,13 +283,13 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
             if ($amount != 0) {
             ?>
                 <center>
-                    <table>
+                    <table style="background-color:#ccc">
                         <tr>
                             <th class="font-table">Number of Seats</th>
                             <th class="font-table">Seats</th>
                             <th class="font-table">Amount</th>
                         </tr>
-                        <tr>
+                        <tr style="background-color:#ccc">
 
                             <td>
                                 <textarea><?php echo count($_POST['a']); ?></textarea>

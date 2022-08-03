@@ -404,6 +404,41 @@ a:hover {
   margin-bottom: 5%;
 }
 
+.listview_row{
+  display: flex;
+  flex-wrap: row;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: 15px;
+}
+.div_image{
+  width:32%;
+  padding: 0 15px;
+}
+.div_image img{
+  max-width: 100%;
+}
+.left{
+width: 48%;
+padding:0 15px;
+margin-right: 40px;
+}
+.right{
+  width: 48%;
+  padding:0 15px;
+  }
+  .bg-1a{
+    background-color: #1a1a1a;
+
+  }
+.div_text{
+  width: 68%;
+  padding: 0 15px;
+}
+.div_text p{
+  font-size: 16px;
+}
+
 .extra-wrap {
   overflow: hidden;
 }
@@ -535,7 +570,15 @@ a:hover {
   font-family: verdana, arial, helvetica, helve, sans-serif;
   padding: 0;
 }
-
+.text_one_line{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+          line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  height: 65px;
+}
 /***** Media Quries *****/
 @media only screen and (max-width: 1024px) {
   .wrap {
