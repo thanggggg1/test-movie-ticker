@@ -233,7 +233,7 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
         </div>
         <div class="background-screen" style="padding-top:40px;padding-bottom:40px">
             <center>
-                <input type="submit" name='submit_seat' value="Confirm Selection" class="w3-button w3-black">
+                <button  name='submit_seat'  class="w3-button w3-black" style="z-index:100;position:relative">Confirm Selection</button>
             </center>
         </div>
     </form>

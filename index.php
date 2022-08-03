@@ -16,10 +16,10 @@
                     while ($n = mysqli_fetch_array($qry3)) {
                     ?>
                         <div class="content-left">
-                            <div class="listimg listimg_1_of_2">
+                            <div class="listimg listimg_1_of_2" >
                                 <img src="<?php echo $n['image']; ?>">
                             </div>
-                            <div class="text list_1_of_2">
+                            <div class="text list_1_of_2" >
                                 <div class="extra-wrap">
                                     <span style="text-color:#000" class="data"><strong><?php echo $n['movie_name']; ?></strong><br>
                                         <span style="text-color:#000" class="data"><strong>Cast :<?php echo $n['cast']; ?></strong><br>
