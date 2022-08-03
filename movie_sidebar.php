@@ -44,7 +44,7 @@ $qry2 = mysqli_query($con, "select * from  tbl_movie where release_date <= CURDA
                                 <p style="color:blue;font-weight:600">Release Date: 
                                     <span style="color:#333"><?php echo $m['release_date']; ?></span>
                                 </p>
-                                <p style="color:#9b9b9e"><?php echo $m['desc']; ?></p>
+                                <p style="color:#9b9b9e" class="max-lines"><?php echo $m['desc']; ?></p>
 
 
                             </div>

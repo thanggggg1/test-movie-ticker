@@ -57,7 +57,7 @@
                                 <p style="color:blue;font-weight:600">Release Date: 
                                     <span style="color:#333"><?php echo $n['release_date']; ?></span>
                                 </p>
-                                <p style="color:#9b9b9e"><?php echo $n['desc']; ?></p>
+                                <p style="color:#9b9b9e" class="max-lines"><?php echo $n['desc']; ?></p>
 
 
                             </div>

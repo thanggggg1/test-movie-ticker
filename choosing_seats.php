@@ -284,33 +284,33 @@ if (isset($_SESSION['movie']) && isset($_SESSION['show'])) {
             ?>
                 <center>
                     <table style="background-color:#ccc">
-                        <tr>
+                        <tr >
                             <th class="font-table">Number of Seats</th>
                             <th class="font-table">Seats</th>
                             <th class="font-table">Amount</th>
                         </tr>
-                        <tr style="background-color:#ccc">
+                        <tr >
 
-                            <td>
-                                <textarea><?php echo count($_POST['a']); ?></textarea>
+                            <td >
+                                <textarea style="background-color:#ccc"><?php echo count($_POST['a']); ?></textarea>
                             </td>
-                            <td>
-                                <textarea><?php foreach ($_POST['a'] as $seat) {
+                            <td >
+                                <textarea style="background-color:#ccc"><?php foreach ($_POST['a'] as $seat) {
 
                                                 echo $seat . " ";
                                             } ?></textarea>
                             </td>
-                            <td>
-                                <textarea><?php echo $amount; ?>
+                            <td >
+                                <textarea style="background-color:#ccc"><?php echo $amount; ?>
 							</textarea>
                             </td>
                         </tr>
                 </center>
                 </table>
             <?php } ?>
-            <center><a href="booking.php">
-                    <button class="w3-button w3-black">Confirm <?php echo $amount; ?>.000đ</button>
-                </a> </center>
+            <center>
+                    <button class="w3-button w3-black" ><a href="booking.php">Confirm <?php echo $amount; ?>.000đ</a></button>
+                 </center>
         </form>
     <?php
     }
